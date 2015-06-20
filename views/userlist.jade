@@ -3,7 +3,12 @@ extends layout
 block content
     h1.
         User List
+    p
+        | 
+        a(href="/newuser") add a new user
+        | 
     ul
+        //We've also got the count – i – handy in case we need it, though in this instance we don't.
         each user, i in userlist
             li
                 a(href="mailto:#{user.email}")= user.username
