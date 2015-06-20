@@ -16,6 +16,10 @@
 * npm start
 	* http://localhost:3000/
 	* Running our own Node JS webserver, with the Express engine and Jade HTML preprocessor installed. 
+
+	* to run it on a specific port
+		* PORT=8080 npm start
+
 * open up a new terminal tab
 	* mongod --dbpath /Users/pavankatepalli/Desktop/git/nodetest1/data
 * open up a new terminal tab
@@ -45,6 +49,13 @@
 
 # notes
 
+* /public - static directories suchs as /images
+* /routes - route files for tutorial project
+* /views - views for tutorial project
+* README.md - this file
+* app.js - central app file for tutorial project
+* package.json - package info for tutorial project
+
 * when to restart the server
 	* changes to Jade templates do not require a server restart, but whenever you change a js file, such as app.js or the route files, you'll need to restart to see changes.
 
@@ -65,7 +76,23 @@
 
 		* A core part of Node is that basically all modules export an object which can easily be called elsewhere in the code. Our master app exports its app object.
 
+	* var mongo = require('mongodb'); var monk = require('monk'); var db = monk('localhost:27017/nodetest1');
+		* These lines tell our app we want to talk to MongoDB, we're going to use Monk to do it, and our database is located at localhost:27017/nodetest1. Note that 27017 is the default port your MongoDB instance should be running on. 
+
+	* app.use(function(req,res,next){req.db = db; next(); });
+		
+		* If we don't put this above the routing stuff (app.use('/', routes);), our app won't work
+
+		* We already defined "db" when we added Mongo and Monk to app.js. It's our Monk connection object. By adding this function to app.use, we're adding that object to every HTTP request (ie: "req") our app makes. 
+
+		* Note: this is probably sub-optimal for performance but, again, we're going quick-n-dirty here.
+
 * in routes/index.js
 	* Basically we're requiring our Express functionality, then attaching a "router" variable to Express's router method, then using that method when an attempt is made to HTTP get the top level directory of our website. Finally we export our router function back to our app.
+
+	* for the /userlist route
+		* Looks complicated. All it's really doing, though, is extracting the "db" object we passed to our http request, and then using that db connection to fill our "docs" variable with database documents, ie: user data. Then we do a page render just like the other two "gets" in this route file.
+
+		* Basically, we tell our app which collection we want to use ('usercollection') and do a find, then return the results as the variable "docs". Once we have those documents, we then do a render of userlist (which will need a corresponding Jade template), giving it the userlist variable to work with, and passing our database documents to that variable.
 
 
