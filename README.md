@@ -16,12 +16,38 @@
 * npm start
 	* http://localhost:3000/
 	* Running our own Node JS webserver, with the Express engine and Jade HTML preprocessor installed. 
+* open up a new terminal tab
+	* mongod --dbpath /Users/pavankatepalli/Desktop/git/nodetest1/data
+* open up a new terminal tab
+	* cd /Users/pavankatepalli/Desktop/git/nodetest1/data
+	* mongo
+		* it'll say connecting to test - it default tries to connect to a database called test - but since there isn't one - it doesn't actually connect to it
+		* this opens up the mongo console
+		* inside here:
+			* use nodetest1
+				* this creates a mongo db called nodetest1
+			* db.usercollection.insert({ "username" : "testuser1", "email" : "testuser1@testdomain.com" })
+				* adds a user in
+				* "db" stands for our database, which we've defined as "nodetest1". 
+				* The "usercollection" part is our collection. Note that there wasn't a step where we created the "usercollection" collection. That's because the first time we add to it, it's going to be auto-created.
+			* db.usercollection.find().pretty()
+				- shows the usercollection 
+			* let's add more users
+
+				* newstuff = [{ "username" : "testuser2", "email" : "testuser2@testdomain.com" }, { "username" : "testuser3", "email" : "testuser3@testdomain.com" }]
+
+				* db.usercollection.insert(newstuff);
+
+				* db.usercollection.find().pretty()
+
+
+
 
 # notes
 
 * when to restart the server
 	* changes to Jade templates do not require a server restart, but whenever you change a js file, such as app.js or the route files, you'll need to restart to see changes.
-	
+
 * in app.js
 	* Routes are kind of like a combination of models and controllers in this setup – they direct traffic and also contain some programming logic (you can establish a more traditional MVC architecture with Express if you like. That's outside of the scope of this app)
 
